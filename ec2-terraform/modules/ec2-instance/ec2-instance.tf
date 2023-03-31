@@ -87,6 +87,29 @@ resource "aws_subnet" "voinc-subnet" {
   }
 }
 
+# Create a new route table for the VPC
+resource "aws_route_table" "voinc-rt" {
+  vpc_id = aws_vpc.voinc-vpc.id
+
+  tags = {
+    Name = "voinc-rt"
+  }
+}
+
+# Associate the subnet with the route table
+resource "aws_route_table_association" "voinc-rta" {
+  subnet_id      = aws_subnet.voinc-subnet.id
+  route_table_id = aws_route_table.voinc-rt.id
+}
+
+# Create a route in the route table that points all traffic to the Internet Gateway
+resource "aws_route" "voinc-route" {
+  route_table_id         = aws_route_table.voinc-rt.id
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id             = aws_internet_gateway.igw-voinc.id
+}
+
+
 # Associate the EIP with a network interface
 resource "aws_network_interface" "voinc-nic" {
   subnet_id       = aws_subnet.voinc-subnet.id
