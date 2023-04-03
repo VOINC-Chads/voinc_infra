@@ -7,6 +7,7 @@ resource "aws_instance" "voinc-backend" {
   instance_type = "t2.small"
 
   vpc_security_group_ids = ["${aws_security_group.default-sg.id}"]
+  iam_instance_profile = aws_iam_instance_profile.ec2-profile.name
 
   key_name               = "voinc"  # voinc key-pair
   associate_public_ip_address = true
@@ -14,6 +15,11 @@ resource "aws_instance" "voinc-backend" {
   
   # Install Go & Docker, build backend
   user_data = file("user_data.sh")
+}
+
+resource "aws_iam_instance_profile" "ec2-profile" {
+  name = "ec2-profile"
+  role = "ec2_role"
 }
 
 resource "aws_security_group" "default-sg" {
