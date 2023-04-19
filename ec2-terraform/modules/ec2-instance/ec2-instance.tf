@@ -15,6 +15,9 @@ resource "aws_instance" "voinc-backend" {
   
   # Install Go & Docker, build backend
   user_data = file("user_data.sh")
+  tags = {
+    "Name" = "main"
+  }
 }
 
 resource "aws_iam_instance_profile" "ec2-profile" {

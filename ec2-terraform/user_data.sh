@@ -1,7 +1,7 @@
 #!/bin/bash
 
 sudo apt-get update -y
-sudo apt-get install -y docker.io git
+sudo apt-get install -y docker.io git awscli
 sudo systemctl start docker
 # curl -O https://dl.google.com/go/go1.16.3.linux-amd64.tar.gz
 # sudo tar -C /usr/local -xzf go1.16.3.linux-amd64.tar.gz
